@@ -1,7 +1,10 @@
-input.onButtonPressed(Button.A, function () {
+function doPumpWater (durationSec: number) {
     pins.digitalWritePin(DigitalPin.P2, 1)
-    basic.pause(5000)
+    basic.pause(durationSec * 1000)
     pins.digitalWritePin(DigitalPin.P2, 0)
+}
+input.onButtonPressed(Button.A, function () {
+    doPumpWater(5)
 })
 input.onButtonPressed(Button.B, function () {
     basic.showString("" + (Moisture))
@@ -22,9 +25,7 @@ basic.forever(function () {
     Moisture = Math.round(Math.map(Capacity, 700, 280, 0, 100))
     basic.showString("" + (Moisture))
     if (Moisture <= 20) {
-        pins.digitalWritePin(DigitalPin.P2, 1)
-        basic.pause(5000)
-        pins.digitalWritePin(DigitalPin.P2, 0)
+        doPumpWater(5)
     } else {
         basic.showIcon(IconNames.SmallDiamond)
         basic.clearScreen()
